@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "d:\\_projects\\das\\experiments\\interactive-knn\\logs\\.62fecc3ec627f3ce9737c33079c8af0ab23cef82-audit.json",
+    "files": [
+        {
+            "date": 1782257676802,
+            "name": "d:\\_projects\\das\\experiments\\interactive-knn\\logs\\mcp-puppeteer-2026-06-24.log",
+            "hash": "c4e906500d52de0e874240983f695472fbc1e370844166b6ceb71227ac9d75da"
+        }
+    ],
+    "hashType": "sha256"
+}
