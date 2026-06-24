@@ -1,0 +1,176 @@
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <title>Interactive KNN</title>
+        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+
+            const COLOURS = [
+            'crimson', 'steelblue', 'seagreen', 'goldenrod', 'mediumorchid',
+            'tomato', 'teal', 'hotpink', 'darkorange', 'slateblue'
+            ];
+
+            const RGB = [
+            [220, 20, 60],    // crimson
+            [70, 130, 180],   // steelblue
+            [46, 139, 87],    // seagreen
+            [218, 165, 32],   // goldenrod
+            [186, 85, 211],   // mediumorchid
+            [255, 99, 71],    // tomato
+            [0, 128, 128],    // teal
+            [255, 105, 180],  // hotpink
+            [255, 140, 0],    // darkorange
+            [106, 90, 205],   // slateblue
+            ];
+
+            function assign(points, centroids){
+                return points.map(p => {
+                    let best = 0;
+                    let bestDist = Infinity;
+                    centroids.forEach((c, i) => {
+                        const d = Math.hypot(p.x - c.x, p.y - c.y);
+                        if (d < bestDist) {bestDist = d; best = i; }
+                    });
+                    return {...p, cluster: best};
+                })
+            }
+
+            function update(points, centroids){
+                return centroids.map((c, i) => {
+                    const members = points.filter(p => p.cluster === i);
+                    if (members.length === 0) return c;
+                    const avgX = members.reduce((sum, p) => sum + p.x, 0) / members.length;
+                    const avgY = members.reduce((sum, p) => sum + p.y, 0) / members.length;
+                    return {x: avgX, y: avgY};
+                });
+            }
+
+            function App(){
+                const [state, setState] = React.useState({ points: [], centroids: []}); // our arrays of points and centroids
+                const canvasRef = React.useRef(null);
+                const [k, setK] = React.useState(2); // setting k
+                const [playing, setPlaying] = React.useState(false); // whether we're auto-playing or not
+
+                // Centroid region calculation
+                function drawRegions(ctx, centroids) {
+                    if (centroids.length === 0) return;
+
+                    const img = ctx.createImageData(400, 400);   // blank pixel buffer
+                    const data = img.data;                        // flat array: [r,g,b,a, r,g,b,a, ...]
+
+                    for (let y = 0; y < 400; y++) {
+                        for (let x = 0; x < 400; x++) {
+                        // find nearest centroid to this pixel
+                        let best = 0, bestDist = Infinity;
+                        centroids.forEach((c, i) => {
+                            const d = (x - c.x) ** 2 + (y - c.y) ** 2;   // squared distance — no sqrt needed
+                            if (d < bestDist) { bestDist = d; best = i; }
+                        });
+
+                        // write that centroid's color into this pixel
+                        const [r, g, b] = RGB[best];
+                        const idx = (y * 400 + x) * 4;     // where this pixel lives in the flat array
+                        data[idx]     = r;
+                        data[idx + 1] = g;
+                        data[idx + 2] = b;
+                        data[idx + 3] = 40;                // alpha 0–255; 40 = faint tint
+                        }
+                    }
+                    ctx.putImageData(img, 0, 0);           // blit the whole buffer at once
+                    }
+                
+                React.useEffect(() => {
+                    if (!playing) return;
+                    const id = setInterval(step, 50);
+                    return () => clearInterval(id);
+                }, [playing]);
+
+                // DRAW THE POINTS AND CENTROIDS
+                React.useEffect(() => {
+                const ctx = canvasRef.current.getContext('2d');
+                ctx.clearRect(0, 0, 400, 400);
+
+                drawRegions(ctx, state.centroids);
+                
+                for (const p of state.points) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = p.cluster == null ? '#bbb' : COLOURS[p.cluster];
+                    ctx.fill();
+                }
+                }, [state]);
+
+                React.useEffect(() => {
+                    setState(prev => { 
+                        if (prev.centroids.length === 0 && prev.points.length >= k) {
+                            return {...prev, centroids: prev.points.slice(0, k).map(p => ({x: p.x, y: p.y}))
+                            };
+                        }
+                        return prev;
+                    });
+                }, [state.points, k]);
+
+                function handleClick(event) { // click logic
+                    const rect = canvasRef.current.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    setState(prev => ({...prev, points: [...prev.points, {x, y, cluster: null}],
+                    }));
+                }
+
+                React.useEffect(() => {
+                    setState(prev => ({
+                        centroids: [],
+                        points: prev.points.map(p => ({...p, cluster: null})),
+                    }));
+                    }, [k]);
+
+                function step(){
+                    setState(prev => {
+                        if (prev.centroids.length === 0) return prev;
+                        const assigned = assign(prev.points, prev.centroids);
+                        const moved = update(assigned, prev.centroids);
+                        return {points: assigned, centroids: moved};
+                    });
+                }
+
+                return(
+                    <>
+                        <canvas //our main canvas
+                            ref={canvasRef} 
+                            width={400} 
+                            height={400} 
+                            style={{border: '1px solid #ccc'}}
+                            onClick={handleClick}
+                        />
+                        <div style={{display: 'block'}}>
+                            <label> 
+                                k = {k}
+                                <input
+                                    type="range"
+                                    min={1}
+                                    max={10}
+                                    value={k}
+                                    onChange={e => setK(Number(e.target.value))}
+                                />
+                            </label>
+                            <button onClick={step}>Step</button>
+                            <button onClick={() => setPlaying(p => !p)}>
+                                {playing ? 'Pause' : 'Play'}
+                            </button>
+                        </div>
+                    </>
+                );
+            }
+
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<App />);
+        </script>
+    </body>
+</html>
