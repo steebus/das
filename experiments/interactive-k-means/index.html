@@ -68,6 +68,9 @@
             [106, 90, 205],   // slateblue
             ];
 
+            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+            // Assign function
             function assign(points, centroids){
                 return points.map(p => {
                     let best = 0;
@@ -80,6 +83,7 @@
                 })
             }
 
+            // Update Function
             function update(points, centroids){
                 return centroids.map((c, i) => {
                     const members = points.filter(p => p.cluster === i);
@@ -90,18 +94,71 @@
                 });
             }
 
+            function computeSSE(points, centroids){ // calclate the sum of squared errors
+                return points.reduce((sum, p) => {
+                    const c = cntroids[p.cluster];
+                    return sum + (p.x - c.x) ** 2 + (p.y - c.y) ** 2;
+                }, 0);
+            }
+
+            function runKMeansSync(points, k) {
+                let centroids = points.slice(0, k).map(p => ({x: p.x, y:p.y}))
+                let assigned = assign(points, centroids); //first assignment pass
+
+                for (let i = 0; i < 100; i++) { // run for 100 iterations
+                    const moved = update(assigned, centroids);
+                    const newAssigned = assign(points, moved);
+                    centroids = moved;
+                    assigned = newAssigned;
+                }
+
+                return computeSSE(assigned,centroids);
+            }
+
+            async function findOptimalK(){
+                if (state.points.length < 2) return;
+
+                const results = [];
+
+                for (let ki = 1; ki <=10; ki++) {
+                    setK(ki);
+                    await sleep(400);
+                    const sse = runKMeansSync(state.points, ki);
+                    results.push({k: ki, sse});
+                }
+                
+                const optimal = findElbow(results);
+                setK(optimal);
+                setElbowData(results);
+            }
+
+            function findElbow(results) {
+                let maxBend = 0;
+                let elbowK = 1;
+                for (let i = 1; i < results.length - 1; i++) {
+                    const dropBefore = results[i-1].sse - results[i].sse;
+                    const dropAfter = results[i].sse - results[i+1].sse;
+                    const bend = dropBefore - dropAfter;
+                    if(bend > maxBend) {maxBend = bend; elbowK = results[i].k;}
+                }
+                return elbowK;
+            }
+
+            //MAIN APP BODY
             function App(){
                 const [state, setState] = React.useState({ points: [], centroids: []}); // our arrays of points and centroids
                 const canvasRef = React.useRef(null);
+                const elbowCanvasRef = React.useRef(null);
                 const [k, setK] = React.useState(2); // setting k
                 const [playing, setPlaying] = React.useState(false); // whether we're auto-playing or not
+                const [elbowData, setElbowData] = React.useState([])
 
                 // Centroid region calculation
                 function drawRegions(ctx, centroids) {
                     if (centroids.length === 0) return;
 
-                    const img = ctx.createImageData(400, 400);   // blank pixel buffer
-                    const data = img.data;                        // flat array: [r,g,b,a, r,g,b,a, ...]
+                    const img = ctx.createImageData(400, 400);
+                    const data = img.data;
 
                     for (let y = 0; y < 400; y++) {
                         for (let x = 0; x < 400; x++) {
@@ -126,9 +183,42 @@
                 
                 React.useEffect(() => {
                     if (!playing) return;
-                    const id = setInterval(step, 50);
+                    const id = setInterval(step, 150);
                     return () => clearInterval(id);
                 }, [playing]);
+
+                // Watch Elbow Data
+                  React.useEffect(() => {
+                    if (elbowData.length === 0) return;
+                    const ctx = elbowCanvasRef.current.getContext('2d');
+                    ctx.clearRect(0, 0, 400, 150);
+
+                    const maxSSE = Math.max(...elbowData.map(r => r.sse));
+                    const pad = 24;
+                    const w = 400 - pad * 2;
+                    const h = 150 - pad * 2;
+
+                    // draw line
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#aaa';
+                    ctx.lineWidth = 1.5;
+                    elbowData.forEach((r, i) => {
+                        const x = pad + (i / (elbowData.length - 1)) * w;
+                        const y = pad + (1 - r.sse / maxSSE) * h;
+                        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                    });
+                    ctx.stroke();
+
+                    // draw dots
+                    elbowData.forEach((r, i) => {
+                        const x = pad + (i / (elbowData.length - 1)) * w;
+                        const y = pad + (1 - r.sse / maxSSE) * h;
+                        ctx.beginPath();
+                        ctx.arc(x, y, 4, 0, Math.PI * 2);
+                        ctx.fillStyle = r.k === k ? '#e00' : '#333';
+                        ctx.fill();
+                    });
+                }, [elbowData]);
 
                 // DRAW THE POINTS AND CENTROIDS
                 React.useEffect(() => {
@@ -180,32 +270,51 @@
                 }
 
                 return(
-                    <>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
                         <h1>Interactive K-Means</h1>
-                        <canvas //our main canvas
-                            ref={canvasRef} 
-                            width={400} 
-                            height={400} 
-                            onClick={handleClick}
-                        />
-                        <div style={{display: 'block'}}>
-                            <label> 
+                        <div style={{display: 'flex', alignItems: 'flex-start',gap: '16px'}}>
+                            <canvas //our main canvas
+                                ref={canvasRef} 
+                                width={400} 
+                                height={400} 
+                                onClick={handleClick}
+                            />
+                            <div style={{width: 300, color: '#808080'}}>
+                                <small> 
+                                    The K-means algorithm is an unsupervised machine learning model.
+                                    It does it best to create groups for items based on their properties.
+                                    The 'k' refers to the number of groups the algorithm is allowed to create.
+                                </small>  
+                            </div>
+                                
+                            
+                        </div>
+                        <div style={{display: 'flex', width: '400px'}}>
                                 k = {k}
                                 <input
+                                    style={{flex: 1}}
                                     type="range"
                                     min={1}
                                     max={10}
                                     value={k}
                                     onChange={e => setK(Number(e.target.value))}
                                 />
-                            </label>
+                                <button onClick={findOptimalK}>Find K</button>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-evenly',width: '400px'}}>
                             <button onClick={step}>Step</button>
                             <button onClick={() => setPlaying(p => !p)}>
                                 {playing ? 'Pause' : 'Play'}
                             </button>
                             <button onClick={() => setState({points: [], centroids: []})}>Reset</button>
                         </div>
-                    </>
+                        {elbowData.length > 0 && (
+                            <div style={{textAlign: 'center'}}>
+                            <small style={{color: '#888'}}>SSE by k - elbow at  k={k}</small>
+                            <canvas ref={elbowCanvasRef} width={400} height={150}/>
+                            </div>
+                        )}
+                    </div>
                 );
             }
 
