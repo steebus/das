@@ -183,7 +183,7 @@
                         data[idx]     = r;
                         data[idx + 1] = g;
                         data[idx + 2] = b;
-                        data[idx + 3] = 40;                // alpha 0–255; 40 = faint tint
+                        data[idx + 3] = 100;                // alpha 0–255; 40 = faint tint
                         }
                     }
                     ctx.putImageData(img, 0, 0);           // blit the whole buffer at once
@@ -200,7 +200,7 @@
                   React.useEffect(() => {
                     if (elbowData.length === 0) return;
                     const ctx = elbowCanvasRef.current.getContext('2d');
-                    ctx.clearRect(0, 0, 400, 150);
+                    ctx.clearRect(0, 0, 400, 170);
 
                     const maxSSE = Math.max(...elbowData.map(r => r.sse));
                     const pad = 24;
@@ -225,8 +225,27 @@
                         ctx.beginPath();
                         ctx.arc(x, y, 4, 0, Math.PI * 2);
                         ctx.fillStyle = r.k === k ? '#e00' : '#333';
-                        ctx.fill();
+                        ctx.fill();  
                     });
+
+                    // x-axis k labels
+                    ctx.fillStyle = '#888';
+                    ctx.font = '11px sans-serif';
+                    ctx.textAlign = 'center';
+                    elbowData.forEach((r, i) => {
+                        const x = pad + (i / (elbowData.length - 1)) * w;
+                        ctx.fillText(r.k, x, pad + h + 16);
+                    });
+                    ctx.fillText('k', pad + w / 2, pad + h + 30);
+
+                    // y-axis label
+                    ctx.save();
+                    ctx.translate(10, pad + h / 2);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.textAlign = 'center';
+                    ctx.fillText('SSE', 0, 0);
+                    ctx.restore();
+
                 }, [elbowData]);
 
                 // DRAW THE POINTS AND CENTROIDS
@@ -235,6 +254,19 @@
                 ctx.clearRect(0, 0, 400, 400);
 
                 drawRegions(ctx, state.centroids);
+
+                // centroid centres
+                for (const [i, c] of state.centroids.entries()) {
+                    const [r, g, b] = RGB[i];
+                    ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(c.x - 6, c.y);
+                    ctx.lineTo(c.x + 6, c.y);
+                    ctx.moveTo(c.x, c.y - 6);
+                    ctx.lineTo(c.x, c.y + 6);
+                    ctx.stroke();
+                }
                 
                 for (const p of state.points) {
                     ctx.beginPath();
@@ -242,6 +274,17 @@
                     ctx.fillStyle = p.cluster == null ? '#bbb' : `rgb(${RGB[p.cluster].join(', ')})`;
                     ctx.fill();
                 }
+                }, [state]);
+
+                const [currentSSE, setCurrentSSE] = React.useState(null);
+
+                React.useEffect(() => {
+                    if (state.points.length === 0 || state.centroids.length === 0) {
+                        setCurrentSSE(null);
+                        return;
+                    }
+                    const assigned = assign(state.points, state.centroids);
+                    setCurrentSSE(Math.round(computeSSE(assigned, state.centroids)));
                 }, [state]);
 
 
@@ -257,6 +300,8 @@
 
                 async function findOptimalK(){
                     if (state.points.length < 2) return;
+
+                    setPlaying(true);
 
                     const results = [];
 
@@ -341,9 +386,16 @@
                             <button onClick={() => {setState({points: [], centroids: []}); setElbowData([]); setK(2); setPlaying(false);}} >Reset</button>
                         </div>
                         {elbowData.length > 0 && (
-                            <div style={{textAlign: 'center'}}>
-                            <small style={{color: '#888'}}>SSE by k - elbow at  k={k}</small>
-                            <canvas ref={elbowCanvasRef} width={400} height={150}/>
+                            <div style={{display: 'flex', alignItems: 'flex-start', gap: '16px'}}>
+                                <canvas ref={elbowCanvasRef} width={400} height={170}/>
+                                <div style={{width: 300, color: '#808080'}}>
+                                    <small> SSE (Sum of Squared Errors) measures how well packed each cluster is.
+                                        It does this by calculating the space between each data point and the centre of its centroid.
+                                        When we repetedly measure this with a different k, we can see at which point more centroids stop being useful.
+                                        This is known as the elbow; the drop in the rate at which SSE falls significantly with an increase in k.
+                                        Current SSE is {currentSSE}.
+                                    </small>
+                                </div>
                             </div>
                         )}
                     </div>
