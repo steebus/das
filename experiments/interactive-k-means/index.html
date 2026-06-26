@@ -160,6 +160,7 @@
                 const [k, setK] = React.useState(2); // setting k
                 const [playing, setPlaying] = React.useState(false); // whether we're auto-playing or not
                 const [elbowData, setElbowData] = React.useState([])
+                const [started, setStarted] = React.useState(false);
 
                 // Centroid region calculation
                 function drawRegions(ctx, centroids) {
@@ -190,9 +191,13 @@
                     }
                 
                 // Auto-play logic
+
+                const stepRef = React.useRef(null);
+                stepRef.current = step;
+
                 React.useEffect(() => {
                     if (!playing) return;
-                    const id = setInterval(step, 150);
+                    const id = setInterval(() => stepRef.current(), 150);
                     return () => clearInterval(id);
                 }, [playing]);
 
@@ -323,6 +328,7 @@
 
                 function step(){
                     setState(prev => {
+                        setStarted(true);
                         if (prev.points.length === 0) return prev;
                         const centroids = prev.centroids.length === 0
                             ? kppInit(prev.points, k)
@@ -346,14 +352,19 @@
                             <div style={{width: 300, color: '#808080'}}>
                                 <small> 
                                     The K-means algorithm is an unsupervised machine learning model.<br></br>
-                                    It does its best to classify items based on their properties.<br></br>
-                                    The 'k' refers to the number of classes the algorithm is allowed to create.<br></br>
-                                    It works in two steps that run repeatedly. Assign (data points are assigned to their nearest class) and Update (classes are repositioned to the centre of their points). These two processes fire until the classes stop moving (convergence). <br></br><br></br>
-                                    To see it in action, click in the box to place data points. Once you've placed a handful, decide how many classes you'd like (this is the k number), and click step to fire off one interaction of the Assign/Update loop.<br></br>
+                                    It does its best to classify items based on their properties. The <i>k</i> refers to the number of classes the algorithm is allowed to create.<br></br> <br></br>
+                                    It works in two steps that run repeatedly. <strong>Assign</strong> (data points are assigned to their nearest class) and <strong>Update</strong> (classes are repositioned to the centre of their points). These two processes fire until the classes stop moving (convergence). <br></br><br></br>
+                                    To see it in action, click in the box to place data points. Once you've placed a handful, decide how many classes you'd like (this is the k number), and click step to fire off one interaction of the Assign/Update loop.<br></br> <br></br>
+                                    </small>
+                                    <small style={{
+                                        opacity: started ? 1:0,
+                                        transition: 'opacity 0.6s ease',
+                                    }}>
                                     Each time you click step, you'll see the classes shift less and less until they converge.<br></br>
                                     Click Play to automatically step as many times as necessary to converge. Change the k number to see how the algorithm tries to be classify all data points into a set number of classes. <br></br>
                                     Click Find K, to have it automatically decide how many classes is best for the current data points.
-                                </small>  
+                                    </small>
+                                
                             </div>
                                 
                             
@@ -388,7 +399,7 @@
                                     <small> SSE (Sum of Squared Errors) measures how well packed each cluster is.
                                         It does this by calculating the space between each data point and the centre of its centroid.
                                         When we repetedly measure this with a different k, we can see at which point more centroids stop being useful.
-                                        This is known as the elbow; the drop in the rate at which SSE falls significantly with an increase in k.
+                                        This is known as the <strong>elbow</strong>; the drop in the rate at which SSE falls significantly with an increase in k.
                                         Current SSE is {currentSSE}.
                                     </small>
                                 </div>
