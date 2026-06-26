@@ -1,0 +1,192 @@
+[     916ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[    1030ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[    1219ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8123/favicon.ico:0
+[   81709ms] ReferenceError: state is not defined
+    at _callee$ (<anonymous>:120:11)
+    at tryCatch (<anonymous>:3:1062)
+    at Generator.<anonymous> (<anonymous>:3:3008)
+    at Generator.next (<anonymous>:3:1699)
+    at asyncGeneratorStep (<anonymous>:16:70)
+    at _next (<anonymous>:17:163)
+    at <anonymous>:17:299
+    at new Promise (<anonymous>)
+    at <anonymous>:17:90
+    at _findOptimalK (<anonymous>:156:24)
+    at findOptimalK (<anonymous>:112:24)
+    at HTMLUnknownElement.callCallback (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4151:16)
+    at Object.invokeGuardedCallbackDev (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4200:18)
+    at invokeGuardedCallback (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4264:33)
+    at invokeGuardedCallbackAndCatchFirstError (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4278:27)
+    at executeDispatch (https://unpkg.com/react-dom@18/umd/react-dom.development.js:9051:5)
+    at processDispatchQueueItemsInOrder (https://unpkg.com/react-dom@18/umd/react-dom.development.js:9083:9)
+    at processDispatchQueue (https://unpkg.com/react-dom@18/umd/react-dom.development.js:9096:7)
+    at dispatchEventsForPlugins (https://unpkg.com/react-dom@18/umd/react-dom.development.js:9107:5)
+    at https://unpkg.com/react-dom@18/umd/react-dom.development.js:9298:14
+    at batchedUpdates$1 (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26189:14)
+    at batchedUpdates (https://unpkg.com/react-dom@18/umd/react-dom.development.js:3978:14)
+    at dispatchEventForPluginEventSystem (https://unpkg.com/react-dom@18/umd/react-dom.development.js:9297:5)
+    at dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay (https://unpkg.com/react-dom@18/umd/react-dom.development.js:6475:7)
+    at dispatchEvent (https://unpkg.com/react-dom@18/umd/react-dom.development.js:6467:7)
+    at dispatchDiscreteEvent (https://unpkg.com/react-dom@18/umd/react-dom.development.js:6440:7)
+[  478898ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[  478943ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[  631214ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[  631235ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[  988901ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[  988929ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[ 2554835ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[ 2554862ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[ 2579981ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[ 2580004ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[ 3323048ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[ 3323074ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[ 3567871ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[ 3567899ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[ 8095550ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[ 8095585ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[ 8095600ms] Uncaught SyntaxError: /Inline Babel script: 'return' outside of function. (86:16)
+
+  84 |
+  85 |                 }
+> 86 |                 return elbowK;
+     |                 ^
+  87 |             }
+  88 |
+  89 |             //MAIN APP BODY
+    at e (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:248082)
+    at r.raise (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:286568)
+    at r.parseReturnStatement (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:495604)
+    at r.parseStatementContent (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:488142)
+    at r.parseStatementLike (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:487383)
+    at r.parseStatementLike (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:363379)
+    at r.parseModuleItem (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:486878)
+    at r.parseBlockOrModuleBlockBody (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:499701)
+    at r.parseBlockBody (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:499534)
+    at r.parseProgram (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:484733)
+    at r.parseTopLevel (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:483436)
+    at r.parseTopLevel (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:381825)
+    at r.parse (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:524968)
+    at gy (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:525159)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:1121505)
+    at u (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4311)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:5657)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4740)
+    at u (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4311)
+    at A (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:6087)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:5434)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4740)
+    at u (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4311)
+    at A (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:6087)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:5434)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4740)
+    at u (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4311)
+    at A (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:6087)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:5434)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:4740)
+    at bI (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:950426)
+    at sync (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:948399)
+    at stopHiding - secret - don't use this - v1 (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:1070598)
+    at OF (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:1132480)
+    at hbe (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2982328)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2978321)
+    at sbe (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2978647)
+    at n (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2978908)
+    at obe (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2979657)
+    at <anonymous> (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2983231)
+    at wbe (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2983241)
+    at jbe (https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0:2982846)
+[ 8121561ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[ 8121647ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[11009385ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[11009415ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[11039295ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[11039318ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[11070500ms] ReferenceError: maxDist is not defined
+    at findElbow (<anonymous>:133:18)
+    at _callee$ (<anonymous>:324:23)
+    at tryCatch (<anonymous>:4:1062)
+    at Generator.<anonymous> (<anonymous>:4:3008)
+    at Generator.next (<anonymous>:4:1699)
+    at asyncGeneratorStep (<anonymous>:5:70)
+    at _next (<anonymous>:6:163)
+[11103524ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[11103605ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[12035546ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[12035573ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[12036948ms] TypeError: prev.kppInit is not a function
+    at <anonymous>:295:27
+    at basicStateReducer (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15731:43)
+    at updateReducer (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15855:24)
+    at updateState (https://unpkg.com/react-dom@18/umd/react-dom.development.js:16195:12)
+    at Object.useState (https://unpkg.com/react-dom@18/umd/react-dom.development.js:17106:18)
+    at Object.useState (https://unpkg.com/react@18/umd/react.development.js:1612:23)
+    at App (<anonymous>:166:31)
+    at renderWithHooks (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15496:20)
+    at updateFunctionComponent (https://unpkg.com/react-dom@18/umd/react-dom.development.js:19627:22)
+    at beginWork (https://unpkg.com/react-dom@18/umd/react-dom.development.js:21650:18)
+    at HTMLUnknownElement.callCallback (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4151:16)
+    at Object.invokeGuardedCallbackDev (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4200:18)
+    at invokeGuardedCallback (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4264:33)
+    at beginWork$1 (https://unpkg.com/react-dom@18/umd/react-dom.development.js:27500:9)
+    at performUnitOfWork (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26609:14)
+    at workLoopSync (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26515:7)
+    at renderRootSync (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26483:9)
+    at performConcurrentWorkOnRoot (https://unpkg.com/react-dom@18/umd/react-dom.development.js:25787:76)
+    at workLoop (https://unpkg.com/react@18/umd/react.development.js:2653:36)
+    at flushWork (https://unpkg.com/react@18/umd/react.development.js:2626:16)
+    at MessagePort.performWorkUntilDeadline (https://unpkg.com/react@18/umd/react.development.js:2920:23)
+[12036949ms] TypeError: prev.kppInit is not a function
+    at <anonymous>:295:27
+    at basicStateReducer (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15731:43)
+    at updateReducer (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15855:24)
+    at updateState (https://unpkg.com/react-dom@18/umd/react-dom.development.js:16195:12)
+    at Object.useState (https://unpkg.com/react-dom@18/umd/react-dom.development.js:17106:18)
+    at Object.useState (https://unpkg.com/react@18/umd/react.development.js:1612:23)
+    at App (<anonymous>:166:31)
+    at renderWithHooks (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15496:20)
+    at updateFunctionComponent (https://unpkg.com/react-dom@18/umd/react-dom.development.js:19627:22)
+    at beginWork (https://unpkg.com/react-dom@18/umd/react-dom.development.js:21650:18)
+    at HTMLUnknownElement.callCallback (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4151:16)
+    at Object.invokeGuardedCallbackDev (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4200:18)
+    at invokeGuardedCallback (https://unpkg.com/react-dom@18/umd/react-dom.development.js:4264:33)
+    at beginWork$1 (https://unpkg.com/react-dom@18/umd/react-dom.development.js:27500:9)
+    at performUnitOfWork (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26609:14)
+    at workLoopSync (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26515:7)
+    at renderRootSync (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26483:9)
+    at recoverFromConcurrentError (https://unpkg.com/react-dom@18/umd/react-dom.development.js:25899:22)
+    at performConcurrentWorkOnRoot (https://unpkg.com/react-dom@18/umd/react-dom.development.js:25799:24)
+    at workLoop (https://unpkg.com/react@18/umd/react.development.js:2653:36)
+    at flushWork (https://unpkg.com/react@18/umd/react.development.js:2626:16)
+    at MessagePort.performWorkUntilDeadline (https://unpkg.com/react@18/umd/react.development.js:2920:23)
+[12036950ms] [ERROR] The above error occurred in the <App> component:
+
+    at App (<anonymous>:166:31)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:18713
+[12036950ms] Uncaught TypeError: prev.kppInit is not a function
+    at <anonymous> (:294:26)
+    at basicStateReducer (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15730:42)
+    at updateReducer (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15854:23)
+    at updateState (https://unpkg.com/react-dom@18/umd/react-dom.development.js:16194:11)
+    at useState (https://unpkg.com/react-dom@18/umd/react-dom.development.js:17105:17)
+    at useState (https://unpkg.com/react@18/umd/react.development.js:1611:22)
+    at App (:165:30)
+    at renderWithHooks (https://unpkg.com/react-dom@18/umd/react-dom.development.js:15495:19)
+    at updateFunctionComponent (https://unpkg.com/react-dom@18/umd/react-dom.development.js:19626:21)
+    at beginWork (https://unpkg.com/react-dom@18/umd/react-dom.development.js:21649:17)
+    at beginWork$1 (https://unpkg.com/react-dom@18/umd/react-dom.development.js:27474:15)
+    at performUnitOfWork (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26608:13)
+    at workLoopSync (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26514:6)
+    at renderRootSync (https://unpkg.com/react-dom@18/umd/react-dom.development.js:26482:8)
+    at recoverFromConcurrentError (https://unpkg.com/react-dom@18/umd/react-dom.development.js:25898:21)
+    at performConcurrentWorkOnRoot (https://unpkg.com/react-dom@18/umd/react-dom.development.js:25798:23)
+    at workLoop (https://unpkg.com/react@18/umd/react.development.js:2652:35)
+    at flushWork (https://unpkg.com/react@18/umd/react.development.js:2625:15)
+    at performWorkUntilDeadline (https://unpkg.com/react@18/umd/react.development.js:2919:22)
+[12048127ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[12048210ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[13144028ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[13144056ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0
+[13332560ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[13332589ms] [WARNING] You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/ @ https://unpkg.com/@babel/standalone@7.26.4/babel.min.js:0

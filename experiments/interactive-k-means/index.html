@@ -96,53 +96,61 @@
 
             function computeSSE(points, centroids){ // calclate the sum of squared errors
                 return points.reduce((sum, p) => {
-                    const c = cntroids[p.cluster];
+                    const c = centroids[p.cluster];
                     return sum + (p.x - c.x) ** 2 + (p.y - c.y) ** 2;
                 }, 0);
             }
 
             function runKMeansSync(points, k) {
-                let centroids = points.slice(0, k).map(p => ({x: p.x, y:p.y}))
+                let centroids = kppInit(points, k); //initialize centroids using k-means++
                 let assigned = assign(points, centroids); //first assignment pass
 
                 for (let i = 0; i < 100; i++) { // run for 100 iterations
                     const moved = update(assigned, centroids);
                     const newAssigned = assign(points, moved);
+                    const settled = moved.every((c, j) => c.x === centroids[j].x && c.y === centroids[j].y); // exit early
                     centroids = moved;
                     assigned = newAssigned;
+                    if (settled) break;
                 }
 
                 return computeSSE(assigned,centroids);
             }
 
-            async function findOptimalK(){
-                if (state.points.length < 2) return;
-
-                const results = [];
-
-                for (let ki = 1; ki <=10; ki++) {
-                    setK(ki);
-                    await sleep(400);
-                    const sse = runKMeansSync(state.points, ki);
-                    results.push({k: ki, sse});
-                }
-                
-                const optimal = findElbow(results);
-                setK(optimal);
-                setElbowData(results);
-            }
-
             function findElbow(results) {
-                let maxBend = 0;
-                let elbowK = 1;
-                for (let i = 1; i < results.length - 1; i++) {
-                    const dropBefore = results[i-1].sse - results[i].sse;
-                    const dropAfter = results[i].sse - results[i+1].sse;
-                    const bend = dropBefore - dropAfter;
-                    if(bend > maxBend) {maxBend = bend; elbowK = results[i].k;}
+                const first = results[0];
+                const last = results[results.length - 1];
+                const kRange = last.k - first.k;
+                const sseRange = first.sse - last.sse;
+                if (sseRange === 0) return first.k; //flat line
+
+                let elbowK = first.k;
+                let maxDist = -Infinity;
+                for (const r of results) {
+                    const kn = (r.k - first.k) / kRange
+                    const ssen = (first.sse - r.sse) / sseRange;
+                    const dist = ssen - kn; // distance from our straight line through the sse plot
+                    
+                    if (dist > maxDist) { 
+                        maxDist = dist; 
+                        elbowK = r.k;
+                    }
                 }
                 return elbowK;
             }
+
+            function kppInit(points, k) {
+                const centroids = [{x: points[0].x, y: points[0].y}];
+                while (centroids.length < k) {
+                    const d2 = points.map(p => Math.min(...centroids.map(c=> (p.x - c.x) ** 2 + (p.y - c.y) **2)) //pick the furthest point
+                    );
+                    let best = 0;
+                    for (let i = 1; i < d2.length; i++) if (d2[i] > d2[best]) best = i;
+                    centroids.push({x: points[best].x, y: points[best].y});
+                }
+                return centroids.map(c=> ({x: c.x, y:c.y}));
+            }
+
 
             //MAIN APP BODY
             function App(){
@@ -181,6 +189,7 @@
                     ctx.putImageData(img, 0, 0);           // blit the whole buffer at once
                     }
                 
+                // Auto-play logic
                 React.useEffect(() => {
                     if (!playing) return;
                     const id = setInterval(step, 150);
@@ -235,15 +244,33 @@
                 }
                 }, [state]);
 
+
                 React.useEffect(() => {
                     setState(prev => { 
                         if (prev.centroids.length === 0 && prev.points.length >= k) {
-                            return {...prev, centroids: prev.points.slice(0, k).map(p => ({x: p.x, y: p.y}))
+                            return {...prev, centroids: kppInit(prev.points, k)
                             };
                         }
                         return prev;
                     });
                 }, [state.points, k]);
+
+                async function findOptimalK(){
+                    if (state.points.length < 2) return;
+
+                    const results = [];
+
+                    for (let ki = 1; ki <=10; ki++) {
+                        setK(ki);
+                        await sleep(200);
+                        const sse = runKMeansSync(state.points, ki);
+                        results.push({k: ki, sse});
+                    }
+                
+                    const optimal = findElbow(results);
+                    setK(optimal);
+                    setElbowData(results);
+                }
 
                 function handleClick(event) { // click logic
                     const rect = canvasRef.current.getBoundingClientRect();
@@ -283,6 +310,7 @@
                                 <small> 
                                     The K-means algorithm is an unsupervised machine learning model.
                                     It does it best to create groups for items based on their properties.
+                                    
                                     The 'k' refers to the number of groups the algorithm is allowed to create.
                                 </small>  
                             </div>
@@ -302,11 +330,15 @@
                                 <button onClick={findOptimalK}>Find K</button>
                         </div>
                         <div style={{display: 'flex', justifyContent: 'space-evenly',width: '400px'}}>
+
                             <button onClick={step}>Step</button>
+
                             <button onClick={() => setPlaying(p => !p)}>
                                 {playing ? 'Pause' : 'Play'}
                             </button>
-                            <button onClick={() => setState({points: [], centroids: []})}>Reset</button>
+
+
+                            <button onClick={() => {setState({points: [], centroids: []}); setElbowData([]); setK(2); setPlaying(false);}} >Reset</button>
                         </div>
                         {elbowData.length > 0 && (
                             <div style={{textAlign: 'center'}}>
