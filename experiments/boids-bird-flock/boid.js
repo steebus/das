@@ -9,19 +9,49 @@ class Boid {
   }
 
   // loop the sim within the canvas
-  edges(){
-    if (this.position.x > width){
-        this.position.x = 0;
-    } else if (this.position.x < 0){
-        this.position.x = width;
+  edges() {
+    if (this.position.x > width) {
+      this.position.x = 0;
+    } else if (this.position.x < 0) {
+      this.position.x = width;
     }
-        if (this.position.y > width){
-        this.position.y = 0;
-    } else if (this.position.y < 0){
-        this.position.y = width;
+    if (this.position.y > width) {
+      this.position.y = 0;
+    } else if (this.position.y < 0) {
+      this.position.y = width;
     }
   }
 
+  //ensure boids dont collide
+  cohesion(boids) {
+    let influence = 50; //how far a boid can see
+    let steering = createVector();
+    let total = 0;
+    for (let other of boids) {
+      //grab the distance of all boids
+      let d = dist(
+        this.position.x,
+        this.position.y,
+        other.position.x,
+        other.position.y,
+      );
+
+      //for the close boids that arent the current one
+      if (other != this && d < influence) {
+        steering.add(other.position);
+        total++;
+      }
+    }
+    if (total > 0) {
+      steering.div(total);
+      steering.setMag(this.maxSpeed);
+      steering.sub(this.velocity);
+      steering.limit(this.maxForce);
+    }
+    return steering;
+  }
+
+  // align boids to the direction of those around them
   align(boids) {
     let influence = 50; //how far a boid can see
     let steering = createVector();
@@ -45,7 +75,7 @@ class Boid {
       steering.div(total);
       steering.setMag(this.maxSpeed);
       steering.sub(this.velocity);
-      steering.limit(this.maxForce)
+      steering.limit(this.maxForce);
     }
     return steering;
   }
