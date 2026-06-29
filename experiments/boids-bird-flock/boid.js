@@ -22,9 +22,9 @@ class Boid {
     }
   }
 
-  //ensure boids dont collide
+  //ensure boids group together
   cohesion(boids) {
-    let influence = 50; //how far a boid can see
+    let influence = 100; //how far a boid can see
     let steering = createVector();
     let total = 0;
     for (let other of boids) {
@@ -44,6 +44,7 @@ class Boid {
     }
     if (total > 0) {
       steering.div(total);
+      steering.sub(this.position);
       steering.setMag(this.maxSpeed);
       steering.sub(this.velocity);
       steering.limit(this.maxForce);
@@ -80,14 +81,50 @@ class Boid {
     return steering;
   }
 
+  separation(boids) {
+    let influence = 100; //how far a boid can see
+    let steering = createVector();
+    let total = 0;
+    for (let other of boids) {
+      //grab the distance of all boids
+      let d = dist(
+        this.position.x,
+        this.position.y,
+        other.position.x,
+        other.position.y,
+      );
+
+      //for the close boids that arent the current one
+      if (other != this && d < influence) {
+        let diff = p5.Vector.sub(this.position, other.position);
+        diff.div(d);
+        steering.add(diff);
+        total++;
+      }
+    }
+    if (total > 0) {
+      steering.div(total);
+      steering.setMag(this.maxSpeed);
+      steering.sub(this.velocity);
+      steering.limit(this.maxForce);
+    }
+    return steering;
+  }
+
   flock(boids) {
     let alignment = this.align(boids);
-    this.acceleration = alignment;
+    let cohesion = this.cohesion(boids);
+    let separation = this.separation(boids);
+    this.acceleration.add(separation);
+    //this.acceleration.add(alignment);
+    //this.acceleration.add(cohesion);
   }
 
   update() {
     this.position.add(this.velocity);
     this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxSpeed);
+    this.acceleration.mult(0);
   }
 
   show() {
