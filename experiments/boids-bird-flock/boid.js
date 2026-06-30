@@ -24,7 +24,7 @@ class Boid {
 
   //ensure boids group together
   cohesion(boids) {
-    let influence = 100; //how far a boid can see
+    let influence = 50; //how far a boid can see
     let steering = createVector();
     let total = 0;
     for (let other of boids) {
@@ -54,7 +54,7 @@ class Boid {
 
   // align boids to the direction of those around them
   align(boids) {
-    let influence = 50; //how far a boid can see
+    let influence = 25; //how far a boid can see
     let steering = createVector();
     let total = 0;
     for (let other of boids) {
@@ -82,7 +82,7 @@ class Boid {
   }
 
   separation(boids) {
-    let influence = 100; //how far a boid can see
+    let influence = 24; //how far a boid can see
     let steering = createVector();
     let total = 0;
     for (let other of boids) {
@@ -115,9 +115,14 @@ class Boid {
     let alignment = this.align(boids);
     let cohesion = this.cohesion(boids);
     let separation = this.separation(boids);
+
+    separation.mult(separationSlider.value());
+    cohesion.mult(cohesionSlider.value());
+    alignment.mult(alignSlider.value())
+
     this.acceleration.add(separation);
-    //this.acceleration.add(alignment);
-    //this.acceleration.add(cohesion);
+    this.acceleration.add(alignment);
+    this.acceleration.add(cohesion);
   }
 
   update() {
@@ -128,8 +133,27 @@ class Boid {
   }
 
   show() {
-    strokeWeight(8);
+    let size = 4;
+    strokeWeight(5);
     stroke(255);
-    point(this.position.x, this.position.y);
+    
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(this.velocity.heading());
+
+        triangle(
+      //tip
+      size, 0,
+      //back left
+      -size, -size / 2,
+      //back right
+      -size, size / 2
+    )
+
+    pop();
+
+
+    //point(this.position.x, this.position.y);
+
   }
 }
