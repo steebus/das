@@ -3,7 +3,7 @@ const COLS = 160;
 const ROWS = COLS;
 const CELL_SIZE = 4;
 
-const FRAMES_PER_CYCLE = 10;
+const FRAMES_PER_CYCLE = 100;
 
 const INITIAL_GRASS = 80;
 const GROWTH_AGE = 3;
@@ -127,37 +127,31 @@ function setup() {
 function draw() {
   background(51);
 
-  if (frameCount % FRAMES_PER_CYCLE === 0) {
-    cycle++;
-    for (const o of [...population])
-      if (o.type === 'grass') o.update();
+  if (frameCount % FRAMES_PER_CYCLE === 0) cycle++;
 
-    randomNewGrass();
-
-    // draw grass to buffer
-    if (pendingGrass.length > 0) {
-      grassLayer.fill(0, 200, 0);
-      grassLayer.noStroke();
-      for (const o of pendingGrass) {
-        grassLayer.rect(o.col * CELL_SIZE, o.row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-      }
-      pendingGrass.length = 0;
+  // draw grass to buffer
+  if (pendingGrass.length > 0) {
+    grassLayer.fill(0, 200, 0);
+    grassLayer.noStroke();
+    for (const o of pendingGrass) {
+      grassLayer.rect(o.col * CELL_SIZE, o.row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
-
-    image(grassLayer, 0, 0);
+    pendingGrass.length = 0;
   }
+  image(grassLayer, 0, 0);
 
-
-
-
+  // MOVE PLAYERS
+  for (const o of [...population]) o.update();
 
   // update moving organisms
   for (const o of population) {
     if (o.type !== 'grass') {
-      o.update();
       o.show();
     }
   }
+
+  // WORLD EVENTS
+  if (frameCount % FRAMES_PER_CYCLE === 0) randomNewGrass();
 
   fill(255);
   noStroke();
